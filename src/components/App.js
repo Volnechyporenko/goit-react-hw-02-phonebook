@@ -8,16 +8,14 @@ class App extends Component {
   state = {
     contacts: [],
     filter: "",
-    name: "",
-    number: "",
   };
 
   onSubmit = (newContact) => {
-    const isContact = this.state.contacts.find(
+    const existedContact = this.state.contacts.find(
       (contact) => contact.name === newContact.name
     );
-    if (isContact) {
-      alert(`${isContact.name} is already in contacts`);
+    if (existedContact) {
+      alert(`${existedContact.name} is already in contacts`);
       return;
     }
     this.setState((prevState) => ({
@@ -30,10 +28,11 @@ class App extends Component {
   };
 
   getFilteredContacts = () => {
-    return this.state.contacts.filter((contact) => {
+    const { contacts, filter } = this.state;
+    return contacts.filter((contact) => {
       return contact.name
         .toLocaleLowerCase()
-        .includes(this.state.filter.toLocaleLowerCase());
+        .includes(filter.toLocaleLowerCase());
     });
   };
 
@@ -45,6 +44,7 @@ class App extends Component {
   };
 
   render() {
+    const { contacts, filter } = this.state;
     const filteredContacts = this.getFilteredContacts();
     return (
       <div>
@@ -52,9 +52,20 @@ class App extends Component {
           <Form onSubmit={this.onSubmit} />
         </Section>
         <Section title="Contacts">
-          <Search onChange={this.onSearch} />
-          {filteredContacts.length > 0 && (
-            <ContactList contacts={filteredContacts} onDelete={this.onDelete} />
+          {contacts.length > 0 ? (
+            <>
+              <Search onChange={this.onSearch} filter={filter} />
+              {filteredContacts.length > 0 ? (
+                <ContactList
+                  contacts={filteredContacts}
+                  onDelete={this.onDelete}
+                />
+              ) : (
+                "Contacts is not found"
+              )}
+            </>
+          ) : (
+            "No contacts yet. Add contacts"
           )}
         </Section>
       </div>

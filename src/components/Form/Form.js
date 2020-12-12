@@ -3,15 +3,16 @@ import { v4 as uuid } from "uuid";
 import PropTypes from "prop-types";
 import s from "./Form.module.css";
 
+const initialState = {
+  name: "",
+  number: "",
+};
 class Form extends Component {
   static propTypes = {
     onSubmit: PropTypes.func.isRequired,
   };
 
-  state = {
-    name: "",
-    number: "",
-  };
+  state = initialState;
 
   handleOnChange = (event) => {
     this.setState({ [event.currentTarget.name]: event.currentTarget.value });
@@ -24,6 +25,7 @@ class Form extends Component {
       name: this.state.name,
       number: this.state.number,
     });
+    this.setState(initialState);
   };
 
   render() {
@@ -49,6 +51,7 @@ class Form extends Component {
             name="number"
             value={this.state.number}
             pattern="[0-9]{3}-[0-9]{2}-[0-9]{2}"
+            placeholder="000-00-00"
             onChange={this.handleOnChange}
           ></input>
         </label>
