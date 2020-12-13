@@ -52,7 +52,7 @@ class App extends Component {
           <Form onSubmit={this.onSubmit} />
         </Section>
         <Section title="Contacts">
-          {contacts.length > 0 ? (
+          {contacts.length > 0 && (
             <>
               <Search onChange={this.onSearch} filter={filter} />
               {filteredContacts.length > 0 ? (
@@ -61,12 +61,11 @@ class App extends Component {
                   onDelete={this.onDelete}
                 />
               ) : (
-                "Contacts is not found"
+                <span>Contacts is not found</span>
               )}
             </>
-          ) : (
-            "No contacts yet. Add contacts"
           )}
+          {!contacts.length && <span>No contacts yet. Add contacts</span>}
         </Section>
       </div>
     );

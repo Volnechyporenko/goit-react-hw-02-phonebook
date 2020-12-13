@@ -1,30 +1,28 @@
-import { Component } from "react";
 import PropTypes from "prop-types";
 import s from "./Search.module.css";
 
-class Search extends Component {
-  handleOnChange = (event) => {
+const Search = ({ onChange, filter }) => {
+  const handleOnChange = (event) => {
     const value = event.currentTarget.value;
-    this.props.onChange(value);
+    onChange(value);
   };
 
-  render() {
-    return (
-      <label className={s.label}>
-        Find contacts by name
-        <input
-          className={s.input}
-          type="text"
-          name="filter"
-          value={this.props.filter}
-          onChange={this.handleOnChange}
-        ></input>
-      </label>
-    );
-  }
-}
+  return (
+    <label className={s.label}>
+      Find contacts by name
+      <input
+        className={s.input}
+        type="text"
+        name="filter"
+        value={filter}
+        onChange={handleOnChange}
+      ></input>
+    </label>
+  );
+};
 
 Search.propTypes = {
+  filter: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
 };
 
